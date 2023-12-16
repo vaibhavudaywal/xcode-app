@@ -12,6 +12,9 @@ struct AddTaskView: View {
     @EnvironmentObject var listViewModel: ListViewModel
     
     @State var taskInput: String = ""
+    
+    @State var alertTitle: String = ""
+    @State var showAlert: Bool = false
 
     var body: some View {
         HStack {
@@ -44,6 +47,9 @@ struct AddTaskView: View {
 
         }
         .padding(14)
+        .alert(isPresented: $showAlert, content: {
+            Alert(title: Text(alertTitle))
+        })
     }
     
     func createTask () {
@@ -56,9 +62,15 @@ struct AddTaskView: View {
     func isTaskInputValid (taskInput: String) -> Bool {
         let trimmedInput = taskInput.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmedInput.count < 3 {
+            setAlert(title: "Pls type atleast 3 alphanumeric characters!!! 🙅‍♂️😱")
             return false
         }
         return true
+    }
+    
+    func setAlert (title: String) -> Void {
+        alertTitle = title
+        showAlert.toggle()
     }
     
 }
