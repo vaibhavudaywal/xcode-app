@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Combine
 
 struct ListView: View {
     
@@ -73,9 +72,9 @@ struct ListView: View {
             Text ("To do list")
             List {
                 ForEach (tasks) {
-                    task in ListRowView(title: task.title)
+                    task in ListRowView(task: task)
                 }
-                .onDelete(perform: onTaskRemove(at:))
+//                .onDelete(perform: onTaskRemove(at:))
             }
             .listStyle(PlainListStyle())
         }
