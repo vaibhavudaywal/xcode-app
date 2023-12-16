@@ -24,8 +24,8 @@ struct ListView: View {
         }
     }
     
-    func onTaskRemove (at offsets: IndexSet) {
-        tasks.remove(atOffsets: offsets)
+    func removeTask (indexSet: IndexSet) {
+        tasks.remove(atOffsets: indexSet)
     }
     
     func isTaskInputValid () -> Bool {
@@ -36,31 +36,31 @@ struct ListView: View {
     var searchBar: some View {
         HStack {
             TextField(
-                "New task here...",
-                text: $taskInput
-            )
-            .textFieldStyle(PlainTextFieldStyle())
-            .padding(.horizontal)
-            .frame(height: 28)
-            .background(Color.gray.opacity(0.3))
-            .cornerRadius(10)
-            .onSubmit {
-                self.addNewTask()
-            }
-            Button(
-                action: self.addNewTask,
-                label: {
-                    Text("Add".uppercased())
+                    "New task here...",
+                    text: $taskInput
+                )
+                .textFieldStyle(PlainTextFieldStyle())
+                .padding(.horizontal)
+                .frame(height: 28)
+                .background(Color.gray.opacity(0.3))
+                .cornerRadius(10)
+                .onSubmit {
+                    self.addNewTask()
                 }
-            )
-            .buttonStyle(PlainButtonStyle())
-            .frame(height: 28)
-            .frame(width: 60)
-            .background(Color.accentColor)
-            .cornerRadius(10)
-            .onTapGesture {
-                self.addNewTask()
-            }
+            Button(
+                    action: self.addNewTask,
+                    label: {
+                        Text("Add".uppercased())
+                    }
+                )
+                .buttonStyle(PlainButtonStyle())
+                .frame(height: 28)
+                .frame(width: 60)
+                .background(Color.accentColor)
+                .cornerRadius(10)
+                .onTapGesture {
+                    self.addNewTask()
+                }
 
         }       
         .padding(14)
@@ -69,22 +69,22 @@ struct ListView: View {
     var body: some View {
         searchBar
         VStack {
-            Text ("To do list")
             List {
                 ForEach (tasks) {
                     task in ListRowView(task: task)
                 }
-//                .onDelete(perform: onTaskRemove(at:))
+                .onDelete(perform: removeTask)
             }
             .listStyle(PlainListStyle())
+            .padding(.horizontal)
         }
     }
     
 }
 
 
-#Preview {
-    ListView()
-}
-
+//#Preview {
+//    ListView()
+//}
+//
 

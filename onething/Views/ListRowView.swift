@@ -17,9 +17,10 @@ struct ListRowView: View {
                 .foregroundColor(task.isCompleted ? .green : .red)
             Text(task.title)
             Spacer()
+            Image(systemName: "trash")
         }
-//        .font(.title3)
         .padding(.vertical, 5)
+        .padding(.horizontal, 5)
     }
 }
 
