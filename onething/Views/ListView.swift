@@ -15,26 +15,57 @@ struct ListView: View {
     @State var taskInput: String = ""
     
     func addNewTask () {
-        taskStore.tasks.append(
-            Task(
-                id: String(taskStore.tasks.count + 1),
-                text: taskInput
+        if isTaskInputValid() {
+            taskStore.tasks.append(
+                Task(
+                    id: String(taskStore.tasks.count + 1),
+                    text: taskInput
+                )
             )
-        )
-        self.taskInput = ""
+            self.taskInput = ""
+        }
     }
     
     func onTaskDelete (at offsets: IndexSet) {
         taskStore.tasks.remove(atOffsets: offsets)
     }
     
+    func isTaskInputValid () -> Bool {
+        let trimmedInput = self.taskInput.trimmingCharacters(in: .whitespacesAndNewlines)
+        return !trimmedInput.isEmpty
+    }
+    
     var searchBar: some View {
         HStack {
-            TextField("add a new task", text: self.$taskInput)
-            Button(action: self.addNewTask, label: {
-                Text("Add new")
-            })
-        }
+            TextField(
+                "New task here...",
+                text: $taskInput
+            )
+            .textFieldStyle(PlainTextFieldStyle())
+            .padding(.horizontal)
+            .frame(height: 28)
+            .background(Color.gray.opacity(0.3))
+            .cornerRadius(10)
+            .onSubmit {
+                self.addNewTask()
+            }
+            Button(
+                action: self.addNewTask,
+                label: {
+                    Text("Add".uppercased())
+                }
+            )
+            .buttonStyle(PlainButtonStyle())
+            .frame(height: 28)
+            .frame(width: 60)
+            .background(Color.accentColor)
+            .cornerRadius(10)
+            .onTapGesture {
+                self.addNewTask()
+            }
+
+        }       
+        .padding(14)
     }
     
     var body: some View {
@@ -43,14 +74,18 @@ struct ListView: View {
             Text ("To do list")
             List {
                 ForEach (self.taskStore.tasks) {
-                    task in Text(task.text)
+                    task in ListRowView(title: task.text)
                 }.onDelete(perform: onTaskDelete(at:))
             }
+            .listStyle(PlainListStyle())
         }
     }
+    
 }
 
 
-//#Preview {
-//    ListView()
-//}
+#Preview {
+    ListView()
+}
+
+
