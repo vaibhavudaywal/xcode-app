@@ -9,25 +9,24 @@ import SwiftUI
 import Combine
 
 struct ListView: View {
-    // creating variable on the basis of task we built
-    @ObservedObject var taskStore = TaskStore()
     
+    @State var tasks: [TaskModel] = []
     @State var taskInput: String = ""
     
     func addNewTask () {
         if isTaskInputValid() {
-            taskStore.tasks.append(
-                Task(
-                    id: String(taskStore.tasks.count + 1),
-                    text: taskInput
+            tasks.append(
+                TaskModel(
+                    title: self.taskInput,
+                    isCompleted: false
                 )
             )
             self.taskInput = ""
         }
     }
     
-    func onTaskDelete (at offsets: IndexSet) {
-        taskStore.tasks.remove(atOffsets: offsets)
+    func onTaskRemove (at offsets: IndexSet) {
+        tasks.remove(atOffsets: offsets)
     }
     
     func isTaskInputValid () -> Bool {
@@ -73,9 +72,10 @@ struct ListView: View {
         VStack {
             Text ("To do list")
             List {
-                ForEach (self.taskStore.tasks) {
-                    task in ListRowView(title: task.text)
-                }.onDelete(perform: onTaskDelete(at:))
+                ForEach (tasks) {
+                    task in ListRowView(title: task.title)
+                }
+                .onDelete(perform: onTaskRemove(at:))
             }
             .listStyle(PlainListStyle())
         }
