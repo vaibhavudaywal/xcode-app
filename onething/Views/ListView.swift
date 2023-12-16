@@ -8,14 +8,7 @@
 import SwiftUI
 import Combine
 
-/*
- MVVM Architeture
- Model - data
- View - ui
- ViewModel - manages models for view
-*/
-
-struct ContentView: View {
+struct ListView: View {
     // creating variable on the basis of task we built
     @ObservedObject var taskStore = TaskStore()
     
@@ -57,7 +50,7 @@ struct ContentView: View {
     }
 }
 
-//
+
 //#Preview {
-//    ContentView()
+//    ListView()
 //}
