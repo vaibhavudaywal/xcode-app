@@ -9,30 +9,10 @@ import SwiftUI
 
 struct ListView: View {
     
-    @State var tasks: [TaskModel] = []
+    @EnvironmentObject var listViewModel: ListViewModel
+    
     @State var taskInput: String = ""
-    
-    func addNewTask () {
-        if isTaskInputValid() {
-            tasks.append(
-                TaskModel(
-                    title: self.taskInput,
-                    isCompleted: false
-                )
-            )
-            self.taskInput = ""
-        }
-    }
-    
-    func removeTask (indexSet: IndexSet) {
-        tasks.remove(atOffsets: indexSet)
-    }
-    
-    func isTaskInputValid () -> Bool {
-        let trimmedInput = self.taskInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        return !trimmedInput.isEmpty
-    }
-    
+
     var searchBar: some View {
         HStack {
             TextField(
@@ -45,10 +25,10 @@ struct ListView: View {
                 .background(Color.gray.opacity(0.3))
                 .cornerRadius(10)
                 .onSubmit {
-                    self.addNewTask()
+                    createTask()
                 }
             Button(
-                    action: self.addNewTask,
+                action: createTask,
                     label: {
                         Text("Add".uppercased())
                     }
@@ -59,7 +39,7 @@ struct ListView: View {
                 .background(Color.accentColor)
                 .cornerRadius(10)
                 .onTapGesture {
-                    self.addNewTask()
+                    createTask()
                 }
 
         }       
@@ -70,21 +50,25 @@ struct ListView: View {
         searchBar
         VStack {
             List {
-                ForEach (tasks) {
+                ForEach (listViewModel.tasks) {
                     task in ListRowView(task: task)
                 }
-                .onDelete(perform: removeTask)
+                .onDelete(perform: listViewModel.removeTask)
             }
             .listStyle(PlainListStyle())
             .padding(.horizontal)
         }
     }
     
+    func createTask () {
+        listViewModel.addTask(taskInput: self.taskInput)
+    }
+    
 }
 
 
-//#Preview {
-//    ListView()
-//}
-//
+#Preview {
+    ListView()
+        .environmentObject(ListViewModel())
+}
 
