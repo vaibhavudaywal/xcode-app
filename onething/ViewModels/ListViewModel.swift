@@ -19,24 +19,14 @@ class ListViewModel: ObservableObject {
     func getTasks() {
         // todo: service logic goes here
     }
-    
-    func isTaskInputValid (taskInput: String) -> Bool {
-        let trimmedInput = taskInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmedInput.count < 3 {
-            return false
-        }
-        return !trimmedInput.isEmpty
-    }
-    
-    func addTask (taskInput: String) {
-        if isTaskInputValid(taskInput: taskInput) {
-            tasks.append(
-                TaskModel(
-                    title: taskInput,
-                    isCompleted: false
-                )
+        
+    func addTask (title: String) {
+        tasks.append(
+            TaskModel(
+                title: title,
+                isCompleted: false
             )
-        }
+        )
     }
     
     func removeTask (indexSet: IndexSet) {
