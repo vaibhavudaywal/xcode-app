@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 // Added Identifiable to make sure the struct is iterable
-struct TaskModel: Identifiable {
+struct TaskModel: Identifiable, Codable {
     let id: String // because it shouldn't change
     let title: String
     let isCompleted: Bool
