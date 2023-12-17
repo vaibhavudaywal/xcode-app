@@ -12,16 +12,17 @@ struct ListView: View {
     @EnvironmentObject var listViewModel: ListViewModel
     
     var body: some View {
-        AddTaskView()
         VStack {
+            AddTaskView()
             List {
                 ForEach (listViewModel.tasks) {
                     task in ListRowView(task: task)
                 }
-                .onDelete(perform: listViewModel.removeTask)
             }
             .listStyle(PlainListStyle())
             .padding(.horizontal)
+            .padding(.bottom, 20)
+            .cornerRadius(-10)
         }
     }
     
@@ -29,7 +30,7 @@ struct ListView: View {
 
 
 #Preview {
-    ListView()
+    ListView()  
         .environmentObject(ListViewModel())
 }
 

@@ -10,32 +10,23 @@ import SwiftUI
 struct ListRowView: View {
 
     var task: TaskModel
+    @EnvironmentObject var listViewModel: ListViewModel
     
     var body: some View {
         HStack {
             Image(systemName: task.isCompleted ? "checkmark.circle" : "circle")
                 .foregroundColor(task.isCompleted ? .green : .red)
+                .onTapGesture {
+                    listViewModel.updateTask(task: task)
+                }
             Text(task.title)
             Spacer()
             Image(systemName: "trash")
+                .onTapGesture {
+                    listViewModel.removeTask(task: task)
+                }
         }
         .padding(.vertical, 5)
         .padding(.horizontal, 5)
     }
 }
-
-
-//struct ListRowView_Previews: PreviewProvider {
-//    // Example task for preview
-//    static let exampleTasks: [TaskModel] = [
-//        TaskModel(title: "First task", isCompleted: false),
-//        TaskModel(title: "Second task", isCompleted: true)
-//    ]
-//    
-//    static var previews: some View {
-//        return ForEach(exampleTasks) {
-//            task in ListRowView(task: task)
-//        }
-////        .previewLayout(.fixed(width: 300, height: 50)) // Adjust width and height as needed
-//    }
-//}

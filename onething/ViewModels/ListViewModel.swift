@@ -29,8 +29,16 @@ class ListViewModel: ObservableObject {
         )
     }
     
-    func removeTask (indexSet: IndexSet) {
-        tasks.remove(atOffsets: indexSet)
+    func removeTask (task: TaskModel) {
+        if let index = tasks.firstIndex(where: { $0.id == task.id }) {
+            tasks.remove(at: index)
+        }
+    }
+    
+    func updateTask (task: TaskModel) {
+        if let index = tasks.firstIndex(where: { $0.id == task.id }) {
+            tasks[index] = task.toggleTask()
+        }
     }
     
 }
