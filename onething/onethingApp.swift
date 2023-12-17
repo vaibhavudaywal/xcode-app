@@ -30,3 +30,9 @@ struct onethingApp: App {
         // So we can access this inside child view as @EnvironmentObject
     }
 }
+
+
+//#Preview {
+//    ListView()
+//        .environmentObject(ListViewModel())
+//}

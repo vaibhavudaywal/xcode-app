@@ -14,23 +14,34 @@ struct ListView: View {
     var body: some View {
         VStack {
             AddTaskView()
-            List {
-                ForEach (listViewModel.tasks) {
-                    task in ListRowView(task: task)
+            if listViewModel.tasks.isEmpty {
+                Spacer()
+                Text("Oops! No tasks found. 😅")
+                     .foregroundColor(.gray)
+                     .font(.title)
+                     .multilineTextAlignment(.center)
+                Spacer(minLength: 5)
+                Spacer()
+            } else {
+                List {
+                    ForEach (listViewModel.tasks) {
+                        task in ListRowView(task: task)
+                    }
                 }
+                .listStyle(PlainListStyle())
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
+                .scrollContentBackground(.hidden)
+                //            .colorMultiply(Color.clear) // if scrollContentBackground do not work
             }
-            .listStyle(PlainListStyle())
-            .padding(.horizontal)
-            .padding(.bottom, 20)
-            .cornerRadius(-10)
         }
+        .background(GlassBackground())
     }
     
 }
 
-
 #Preview {
-    ListView()  
+    ListView()
         .environmentObject(ListViewModel())
 }
 
